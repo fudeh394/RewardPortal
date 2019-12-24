@@ -1,0 +1,112 @@
+﻿@using Newtonsoft.Json;
+@using RewardSystemWeb.Models;
+@model RewardSystemWeb.Models.CreatePost
+@{
+    ViewBag.Title = "Upload Billing Report";
+    var IsEditMode = Model.Id > 0;
+    var currentUser = JsonConvert.DeserializeObject<CurrentUser>((string)Session["currentUser"]);
+    var inputter = (currentUser.Role == 1);
+    var authoriser = (currentUser.Role == 3);
+
+}
+
+<div class="page-header page-header-default">
+    <div class="page-header-content">
+        <div class="page-title_2">
+            <h4><i class="icon-credit-card position-left"></i> <span class="text-semibold"> @ViewBag.Title</span></h4>
+        </div>
+    </div>
+    <div class="breadcrumb-line">
+        <ul class="breadcrumb">
+            <li><a href="#"><i class=""></i> <b>@ViewBag.Title</b></a></li>
+            <li class="">This page allows you @ViewBag.Title </li>
+        </ul>
+    </div>
+
+
+    @if (TempData.Peek("message") != null)
+    {
+        <div class="breadcrumb-line ">
+            <ul class="breadcrumb">
+                <li><a href="#"><i class="icon-notification2 position-left text-success-800"></i> </a></li>
+                <li class="active text-success-800">@Convert.ToString(TempData["message"])</li>
+            </ul>
+        </div>
+    }
+    else if (TempData.Peek("error") != null)
+    {
+        <div class="breadcrumb-line ">
+            <ul class="breadcrumb">
+                <li><a href="#"><i class="icon-notification2 position-left text-danger-800"></i> </a></li>
+                <li class="active text-danger-800">@Convert.ToString(TempData["error"])</li>
+            </ul>
+        </div>
+    }
+
+
+
+</div>
+
+<div class="page-container">
+    <div class="content">
+        <div class="tab-pane active" id="tab_1">
+            <div class="portlet box blue">
+                <div class="portlet-title">
+                    <div class="caption"><i class="icon-reorder"></i>
+                    </div>
+                    <div class="tools">
+
+                    </div>
+                </div>
+                <div class="portlet-body form">
+                    @using (Html.BeginForm("NewItem", "Billing", FormMethod.Post, new { @class = "horizontal-form", @enctype = "multipart/form-data" }))
+                    {
+
+                        <div class="row-fluid">
+                            <div class="span6 ">
+                                <div class="control-group">
+
+                                    <label class="control-label">Excel File Selector</label>
+                                    <div class="controls">
+
+
+                                        <div class="fileupload fileupload-new" data-provides="fileupload">
+                                            <div>
+                                                <span class="btn btn-file">
+                                                    @*@Html.TextBoxFor(model => model.Name, new { @class = "form-control" })*@
+                                                    @Html.TextBoxFor(m => m.FilePath, new { @class = "default", @type = "file" })
+                                                </span>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="form-actions">
+                            @if ((!IsEditMode) && (inputter))
+                            {
+                                <button type="submit" class="btn blue"><i class="icon-ok"></i> Submit</button>
+                            }
+
+                            <button type="button" class="btn" onclick="window.open('@Url.Action("Index", "Home")','_self',false)">Cancel</button>
+                        </div>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+

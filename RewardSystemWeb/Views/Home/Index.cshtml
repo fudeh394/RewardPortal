@@ -1,0 +1,215 @@
+﻿
+@using Newtonsoft.Json;
+
+@using RewardSystemWeb.Models;
+
+@{
+    ViewBag.Title = "Home";
+    var currentUser = JsonConvert.DeserializeObject<CurrentUser>((string)Session["currentUser"]);
+
+}
+
+
+<style>
+    .flex-container {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+        /*-ms-box-orient: horizontal;*/
+        display: -webkit-box;
+        display: -moz-box;
+        display: -ms-flexbox;
+        display: -moz-flex;
+        display: -webkit-flex;
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .nowrap {
+        -webkit-flex-wrap: nowrap;
+        flex-wrap: nowrap;
+    }
+
+    .wrap {
+        -webkit-flex-wrap: wrap;
+        flex-wrap: wrap;
+    }
+
+        .wrap li {
+            background: gold;
+        }
+
+    .wrap-reverse {
+        -webkit-flex-wrap: wrap-reverse;
+        flex-wrap: wrap-reverse;
+    }
+
+        .wrap-reverse li {
+            background: deepskyblue;
+        }
+
+    .flex-item1 {
+        display: inline-block;
+        background: blue;
+        margin: 10px 0 0 2%;
+        flex-grow: 1;
+        height: 100px;
+        width: calc(100% * (1/5) - 10px - 1px);
+    }
+</style>
+
+
+<h1 class="page-title">
+    Reward Portal
+</h1>
+
+
+<div class="row-fluid">
+
+    <div class="span12" style="margin-left: 0px;">
+
+        <div class="span12">
+            <div class="row-fluid">
+                <div class="span12">
+                    <!-- BEGIN EXAMPLE TABLE PORTLET-->
+                    <div class="portlet box light-grey">
+                        <div class="portlet-title">
+                            <div class="caption"><i class="icon-globe"></i>My Recent Activities</div>
+                            <div class="tools">
+                                <a href="javascript:;" class="collapse"></a>
+                                <a href="#portlet-config" data-toggle="modal" class="config"></a>
+                                <a href="javascript:;" class="reload"></a>
+                                <a href="javascript:;" class="remove"></a>
+                            </div>
+                        </div>
+                        <div class="portlet-body" style="overflow: scroll;height: 180pt;">
+                            <div class="clearfix">
+                                <div class="btn-group pull-right">
+                                    <button class="btn dropdown-toggle" data-toggle="dropdown">
+                                        Get Sample File <i class="icon-angle-down"></i>
+                                    </button>
+                                    <ul class="dropdown-menu pull-right">
+                                        <li><a href="#" onclick="window.open('@Url.Action("DownloadSampleFile", "Home")','_self',false)" >Export to Excel</a></li>
+                                    </ul>
+                                </div>
+                              
+                            </div>
+                            <table class="table table-striped table-bordered table-hover" id="sample_111">
+                                <thead>
+                                    <tr>
+
+                                    
+                                        @*<th style="width:8px;"><input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" /></th>*@
+                                        <th>CreatedBy</th>
+                                        <th class="hidden-480">EventTime</th>
+                                        <th class="hidden-480">Description</th>
+                                        <th class="hidden-480">Time</th>
+                                       
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var i in ViewBag.RecentActivities as List<AuditsModel>)
+                                    {
+                                        try
+                                        {
+                                            <tr class="odd gradeX">
+                                                @*<td><input type="checkbox" class="checkboxes" value="1" /></td>*@
+                                                <td>@i.Name</td>
+                                                <td class="hidden-480"><a>@i.TimeStamp.ToString("yyyy-MM-dd HH:mm")</a></td>
+                                                <td class="hidden-480">@i.AuditDescription</td>
+                                                <td class="center hidden-480">@i.TimeStamp.ToString("yyyy-MM-dd HH:mm").Split(' ')[1]</td>
+                                               @* <td><a href="#" class="btn mini purple"><i class="icon-edit"></i>Detail</a></td>*@
+                                            </tr>
+
+                                        }
+                                        catch (Exception)
+                                        {
+
+                                            throw;
+                                        }
+
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- END EXAMPLE TABLE PORTLET-->
+                </div>
+            </div>
+
+
+        </div>
+
+
+
+
+
+        <div class="span12" style="margin-left: 0px;">
+
+            <span class="tile_title">Quick Links</span>
+            <div class="flex-container">
+
+
+
+                @if (currentUser.Role == 1)
+                {
+                    <div class="tile bg-blue" onclick="window.open('@Url.Action("NewItem", "Billing")','_self',false)">
+                        <div class="tile-body" style="cursor: pointer;"><i class="icon-upload-alt"></i> </div>
+                        <div class="tile-object">
+                            <div class="name">Upload Billing File</div>
+                        </div>
+                    </div>
+                }
+
+                @if (currentUser.Role == 1)
+                {
+                    <div class="tile bg-purple" onclick="window.open('@Url.Action("Index", "AgentManager")','_self',false)">
+                        <div class="tile-body" style="cursor: pointer;"><i class="icon-cog"></i> </div>
+                        <div class="tile-object">
+                            <div class="name">Manage Agents Institutions</div>
+                        </div>
+                    </div>
+                }
+
+
+                @if (currentUser.Role == 1)
+                {
+                    <div class="tile bg-yellow" onclick="window.open('@Url.Action("Index1", "AgentManager")','_self',false)">
+                        <div class="tile-body" style="cursor: pointer;"><i class="icon-cogs"></i> </div>
+                        <div class="tile-object">
+                            <div class="name">Manage Agents Institutions Accounts</div>
+                        </div>
+                    </div>
+                }
+
+
+                @if (currentUser.Role == 1)
+                {
+                    <div class="tile bg-green" onclick="window.open('@Url.Action("Index2", "AgentManager")','_self',false)">
+                        <div class="tile-body" style="cursor: pointer;"><i class="icon-cogs"></i> </div>
+                        <div class="tile-object">
+                            <div class="name">Reward Configuration</div>
+                        </div>
+                    </div>
+                }
+
+
+
+
+
+
+            </div>
+            <br />
+
+
+        </div>
+
+
+
+    </div>
+
+</div>
+
+
+
+

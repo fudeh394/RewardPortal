@@ -1,0 +1,21 @@
+﻿td.details-control {
+    background: url('../img/plus-sign.png') no-repeat center center;
+    cursor: pointer;
+}
+tr.shown td.details-control {
+    background: url('../img/minus-sign.png') no-repeat center center;
+}
+
+td.details-control1 {
+    background: url('../img/plus-sign.png') no-repeat center center;
+    cursor: pointer;
+}
+tr.shown td.details-control1 {
+    background: url('../img/minus-sign.png') no-repeat center center;
+    
+}  
+
+.hide_default{
+        background: url('../img/minus-sign.png') no-repeat center center;
+
+}
