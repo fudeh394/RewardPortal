@@ -3,4 +3,3 @@ C:\NIBSS\NET\Nibss.Net.Utilities\RewardSystem\bin\Debug\RewardSystem.pdb
 C:\NIBSS\NET\Nibss.Net.Utilities\RewardSystem\obj\Debug\RewardSystem.csproj.CoreCompileInputs.cache
 C:\NIBSS\NET\Nibss.Net.Utilities\RewardSystem\obj\Debug\RewardSystem.dll
 C:\NIBSS\NET\Nibss.Net.Utilities\RewardSystem\obj\Debug\RewardSystem.pdb
-C:\NIBSS\NET\Nibss.Net.Utilities\RewardSystem\obj\Debug\RewardSystem.csprojAssemblyReference.cache

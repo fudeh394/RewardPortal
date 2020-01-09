@@ -71,6 +71,28 @@ namespace RewardSystemWeb
             }
         }
 
+
+        public static string CurrentFileName
+        {
+            get
+            {
+                var session = HttpContext.Current.Session;
+                if (session["__CurrentFileName__"] == null)
+                {
+                    var uc = string.Empty;
+
+                    session["__CurrentFileName__"] = uc;
+                }
+                return session["__CurrentFileName__"] as string;
+
+            }
+            set
+            {
+                var session = HttpContext.Current.Session;
+                session["__CurrentFileName__"] = value;
+            }
+        }
+
     }
 
 }

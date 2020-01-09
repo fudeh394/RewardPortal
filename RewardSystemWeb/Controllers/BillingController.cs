@@ -41,30 +41,7 @@ namespace RewardSystemWeb.Controllers
                 Rank = x.Rank,
                 Reward = x.Reward
             }).ToList<RewardBand>();
-       //RewardBands = new List<RewardBand>
-       //     {
-       //          new RewardBand
-       //          {
-       //               Rank =1, Max=30, Min = 1, Reward = 100
-       //          },
-       //          new RewardBand
-       //          {
-       //               Rank =2, Max=60, Min = 31, Reward = 125
-       //          },
-       //          new RewardBand
-       //          {
-       //               Rank =3, Max=90, Min = 61, Reward = 150
-       //          },
-       //          new RewardBand
-       //          {
-       //               Rank =4, Max=120, Min = 91, Reward = 175
-       //          },
-       //          new RewardBand
-       //          {
-       //               Rank =5, Max=100000000, Min = 121, Reward = 200
-       //          }
-       //     };
-
+       
             rewardService = new RewardService(RewardBands);
 
         }
@@ -83,10 +60,7 @@ namespace RewardSystemWeb.Controllers
         public ActionResult TditItem(long id = 0)
         {
             var model = new CreatePost();
-            //if (id > 0)
-            //{
-            //    model = _service.GetRequest(id, CurrentUser.SolId);
-            //}
+            
 
             return View(model);
 
@@ -187,7 +161,7 @@ namespace RewardSystemWeb.Controllers
             }
         }
 
-        private string GetAccountName(string bnkCode)
+        private string GetAccountName(string bnkCode, string acct)
         {
             var input = string.Empty;
             if (bnkCode != null && bnkCode.Length == 3)
@@ -206,7 +180,7 @@ namespace RewardSystemWeb.Controllers
             {
                 try
                 {
-                    return Connection.AgentAccounts.Where(x => x.BankCode.Equals(input, StringComparison.InvariantCultureIgnoreCase)).FirstOrDefault<AgentAccount>().AccountName;
+                    return Connection.AgentAccounts.Where(x => (x.BankCode.Equals(input, StringComparison.InvariantCultureIgnoreCase) && x.AccountNumber.Equals(acct, StringComparison.InvariantCultureIgnoreCase))).FirstOrDefault<AgentAccount>().AccountName;
 
                 }
                 catch (Exception)
@@ -256,9 +230,10 @@ namespace RewardSystemWeb.Controllers
                 IWorkbook workbook;
                 using (FileStream file = new FileStream(path, FileMode.Open, FileAccess.Read))
                 {
+                    
                     workbook = WorkbookFactory.Create(file);
                 }
-
+                
                 var importer = new Mapper(workbook);
                 var items = importer.Take<BillingReport>(0).Select(y => y.Value).ToList<BillingReport>();
 
@@ -270,13 +245,13 @@ namespace RewardSystemWeb.Controllers
                     result = items.Select(x => new BillingResult
                     {
                         Amount = rewardService.GetReward(x.Count),
-                        AccountName = string.IsNullOrEmpty(GetAccountName(x.BankCode)) ? x.AccountName : GetAccountName(x.BankCode),
-                        AccountNumber = string.IsNullOrEmpty(GetAccount(x.BankCode)) ? FormatAccountNumber(x.AccountNumber) : GetAccount(x.BankCode),
+                        AccountName = string.IsNullOrEmpty(GetAccountName(x.BankCode, FormatAccountNumber(x.AccountNumber))) ? x.AccountName : GetAccountName(x.BankCode, FormatAccountNumber(x.AccountNumber)),
+                        AccountNumber =  FormatAccountNumber(x.AccountNumber), 
                          AgrntMgrInstCode  = FormatInstitutionCode( x.AgtMgrInstCode),
                           AgrntMgrInstName  = x.AgtMgrInstName,
                         BankCode = FormatBankCode(x.BankCode) , 
-                        Narration  = x.Narration,
-                       
+                        Narration  = MySessions.CurrentFileName,
+                       Count = x.Count,
                         SN = x.SN
 
 
@@ -342,10 +317,11 @@ namespace RewardSystemWeb.Controllers
             headerRow.CreateCell(1).SetCellValue(" AGT MGR INST NAME");
             headerRow.CreateCell(2).SetCellValue(" AGT MGR INST CODE");
             headerRow.CreateCell(3).SetCellValue(" AMOUNT");
-            headerRow.CreateCell(4).SetCellValue(" ACCOUNT NUMBER");
-            headerRow.CreateCell(5).SetCellValue(" ACCOUNT NAME");
-            headerRow.CreateCell(6).SetCellValue(" BANK CODE");
-            headerRow.CreateCell(7).SetCellValue("  NARRATION");
+            headerRow.CreateCell(4).SetCellValue(" COUNT");
+            headerRow.CreateCell(5).SetCellValue(" ACCOUNT NUMBER");
+            headerRow.CreateCell(6).SetCellValue(" ACCOUNT NAME");
+            headerRow.CreateCell(7).SetCellValue(" BANK CODE");
+            headerRow.CreateCell(8).SetCellValue("  NARRATION");
             
             int rowNumber = 1;
 
@@ -358,10 +334,11 @@ namespace RewardSystemWeb.Controllers
                 row.CreateCell(1).SetCellValue(n.AgrntMgrInstName);
                 row.CreateCell(2).SetCellValue(n.AgrntMgrInstCode);
                 row.CreateCell(3).SetCellValue((string.Format("{0:#,0.00}", n.Amount)));
-                row.CreateCell(4).SetCellValue(n.AccountNumber);
-                row.CreateCell(5).SetCellValue(n.AccountName);
-                row.CreateCell(6).SetCellValue(n.BankCode);
-                row.CreateCell(7).SetCellValue(n.Narration);
+                row.CreateCell(4).SetCellValue(n.Count);
+                row.CreateCell(5).SetCellValue(n.AccountNumber);
+                row.CreateCell(6).SetCellValue(n.AccountName);
+                row.CreateCell(7).SetCellValue(n.BankCode);
+                row.CreateCell(8).SetCellValue(n.Narration);
                
             }
 
@@ -407,6 +384,7 @@ namespace RewardSystemWeb.Controllers
                         return View(model);
                     }
                     model.OriginalFileName = Path.GetFileName(model.FilePath.FileName);
+                    MySessions.CurrentFileName = Path.GetFileNameWithoutExtension(model.OriginalFileName);
                     var uniqueFileName = GetUniqueFileName(model.OriginalFileName);
                     var uploads = Path.Combine((string)ConfigurationManager.AppSettings["upload_path"], "uploads");
                     var filePath = Path.Combine(uploads, uniqueFileName);

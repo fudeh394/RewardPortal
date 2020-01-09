@@ -88,6 +88,39 @@ namespace RewardSystemWeb.Models
 
 
 
+    public class AgentResultDetail
+    {
+        [Column("Date Range")]
+        public string DateRange { get; set; }
+
+        [Column("Total Count")]
+        public string TotalCount { get; set; }
+        [Column("Band")]
+        public string Band { get; set; }
+
+        [Column("Price")]
+        public decimal Amount { get; set; }
+
+        [Column("COUNT")]
+        public int Count { get; set; }
+
+        [Column("ACCOUNT NUMBER")]
+        public string AccountNumber { get; set; }
+
+        [Column("ACCOUNT NAME")]
+        public string AccountName { get; set; }
+
+        [Column("BANK CODE")]
+        public string BankCode { get; set; }
+
+        [Column("NARRATION")]
+        public string Narration { get; set; }
+
+
+    }
+
+
+
     public class BillingResult
     {
         [Column("S/N")]
@@ -100,6 +133,10 @@ namespace RewardSystemWeb.Models
 
         [Column("AMOUNT")]
         public decimal Amount { get; set; }
+
+        [Column("COUNT")]
+        public int Count { get; set; }
+
         [Column("ACCOUNT NUMBER")]
         public string AccountNumber { get; set; }
 
