@@ -57,12 +57,18 @@ namespace RewardSystemWeb.Controllers
 
 
 
-        public ActionResult TditItem(long id = 0)
+        public ActionResult TditItem(int Count = 0)
         {
-            var model = new CreatePost();
+            var models = new List<AgentResultDetail>();
+            if(Count > 0)
+            {
+                models = rewardService.GetComputationDetail(Count).Select(x => new AgentResultDetail {
+                 Amount = x.Amount, Band = x.Band, Count = x.Count, DateRange = x.DateRange, Price = x.Price, TotalCount = x.TotalCount}).ToList<AgentResultDetail>();
+                MySessions.CurrentAgentResultDetail = models;
+            }
             
 
-            return View(model);
+            return View(models);
 
         }
 
@@ -251,7 +257,7 @@ namespace RewardSystemWeb.Controllers
                           AgrntMgrInstName  = x.AgtMgrInstName,
                         BankCode = FormatBankCode(x.BankCode) , 
                         Narration  = MySessions.CurrentFileName,
-                       Count = x.Count,
+                       Count = x.Count, AgentCode = x.AgentCode,
                         SN = x.SN
 
 
@@ -306,6 +312,30 @@ namespace RewardSystemWeb.Controllers
         }
 
 
+
+
+
+        public ActionResult DownloadBillingResult1()
+        {
+            var models = new List<AgentResultDetail>();
+            models = MySessions.CurrentAgentResultDetail;
+
+            if (models != null && models.Count > 0)
+            {
+                var output = ExportRequest1(models);
+
+                string filename = string.Format("BillingDetailsResult-{0}.xls", DateTime.Now.ToString("yyyyMMddhhmmss"));
+
+                TempData["message"] = "Successfully exported";
+                return File(output, "application/vnd.ms-excel", filename);
+
+            }
+
+
+            return View(models);
+        }
+
+
         private byte[] ExportRequest(List<BillingResult> request)
         {
             var workbook = new HSSFWorkbook();
@@ -316,29 +346,33 @@ namespace RewardSystemWeb.Controllers
             headerRow.CreateCell(0).SetCellValue("S/N");
             headerRow.CreateCell(1).SetCellValue(" AGT MGR INST NAME");
             headerRow.CreateCell(2).SetCellValue(" AGT MGR INST CODE");
-            headerRow.CreateCell(3).SetCellValue(" AMOUNT");
+            headerRow.CreateCell(3).SetCellValue(" AGENT CODE");
             headerRow.CreateCell(4).SetCellValue(" COUNT");
-            headerRow.CreateCell(5).SetCellValue(" ACCOUNT NUMBER");
-            headerRow.CreateCell(6).SetCellValue(" ACCOUNT NAME");
-            headerRow.CreateCell(7).SetCellValue(" BANK CODE");
-            headerRow.CreateCell(8).SetCellValue("  NARRATION");
+            headerRow.CreateCell(5).SetCellValue(" AMOUNT");
+            headerRow.CreateCell(6).SetCellValue(" ACCOUNT NUMBER");
+            headerRow.CreateCell(7).SetCellValue(" ACCOUNT NAME");
+            headerRow.CreateCell(8).SetCellValue(" BANK CODE");
+            headerRow.CreateCell(9).SetCellValue("  NARRATION");
             
             int rowNumber = 1;
 
             foreach (var n in request)
             {
                 //Create a new Row
-                var row = sheet.CreateRow(rowNumber++);
+                var id = rowNumber++;
+                var row = sheet.CreateRow(id);
                 //Set the Values for Cells
-                row.CreateCell(0).SetCellValue(n.SN);
+                row.CreateCell(0).SetCellValue(id);
                 row.CreateCell(1).SetCellValue(n.AgrntMgrInstName);
                 row.CreateCell(2).SetCellValue(n.AgrntMgrInstCode);
-                row.CreateCell(3).SetCellValue((string.Format("{0:#,0.00}", n.Amount)));
+                row.CreateCell(3).SetCellValue(n.AgentCode);
                 row.CreateCell(4).SetCellValue(n.Count);
-                row.CreateCell(5).SetCellValue(n.AccountNumber);
-                row.CreateCell(6).SetCellValue(n.AccountName);
-                row.CreateCell(7).SetCellValue(n.BankCode);
-                row.CreateCell(8).SetCellValue(n.Narration);
+                row.CreateCell(5).SetCellValue((string.Format("{0:#,0.00}", n.Amount)));
+                
+                row.CreateCell(6).SetCellValue(n.AccountNumber);
+                row.CreateCell(7).SetCellValue(n.AccountName);
+                row.CreateCell(8).SetCellValue(n.BankCode);
+                row.CreateCell(9).SetCellValue(n.Narration);
                
             }
 
@@ -349,6 +383,47 @@ namespace RewardSystemWeb.Controllers
             return output.ToArray();
         }
 
+
+
+        private byte[] ExportRequest1(List<AgentResultDetail> request)
+        {
+            var workbook = new HSSFWorkbook();
+
+            //Create new Excel Sheet
+            var sheet = workbook.CreateSheet();
+            var headerRow = sheet.CreateRow(0);
+            headerRow.CreateCell(0).SetCellValue("Date Range");
+            headerRow.CreateCell(1).SetCellValue("Total Enrolment");
+            headerRow.CreateCell(2).SetCellValue("Band");
+            headerRow.CreateCell(3).SetCellValue("Count Within Band");
+            headerRow.CreateCell(4).SetCellValue("Price");
+            headerRow.CreateCell(5).SetCellValue("Amount");
+         
+            
+
+            int rowNumber = 1;
+
+            foreach (var n in request)
+            {
+                //Create a new Row
+                var row = sheet.CreateRow(rowNumber++);
+                //Set the Values for Cells
+                row.CreateCell(0).SetCellValue(n.DateRange);
+                row.CreateCell(1).SetCellValue(n.TotalCount);
+                row.CreateCell(2).SetCellValue(n.Band);
+                row.CreateCell(3).SetCellValue(n.Count);
+                row.CreateCell(4).SetCellValue((string.Format("{0:#,0.00}", n.Price)));
+                row.CreateCell(5).SetCellValue((string.Format("{0:#,0.00}", n.Amount)));
+                
+
+            }
+
+            //Write the Workbook to a memory stream
+            MemoryStream output = new MemoryStream();
+            workbook.Write(output);
+
+            return output.ToArray();
+        }
 
 
         [HttpPost]

@@ -7,6 +7,7 @@
     var currentUser = JsonConvert.DeserializeObject<CurrentUser>((string)Session["currentUser"]);
     var inputter = (currentUser.Role == 1);
     var authoriser = (currentUser.Role == 3);
+    var ci = 1;
 }
 
 
@@ -92,31 +93,43 @@
                                     <th> S/N</th>
                                     <th> AGT MGR INST NAME</th>
                                     <th> AGT MGR INST CODE</th>
+                                    <th>  AGENT CODE</th>
                                     <th>  AMOUNT</th>
+                                    <th>  COUNT</th>
                                     <th>  ACCOUNT NUMBER</th>
                                     <th>  ACCOUNT NAME</th>
                                     <th>  BANK CODE</th>
                                     <th>  NARRATION</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach (var i in Model)
+                                
+                                @foreach (var i in Model.Select((value, i) => new { i, value }))
                                 {
-                                <tr>
-                                    <td>@i.SN</td>
-                                    <td>@i.AgrntMgrInstName</td>
-                                    <td>@i.AgrntMgrInstCode</td>
-                                    <td>@i.Amount</td>
-                                    <td>@i.AccountNumber</td>
-                                    <td>@i.AccountName</td>
-                                    <td>@i.BankCode</td>
-                                    <td>@i.Narration</td>
+                                    <tr>
+                                        <td>@(i.i+1)</td>
+                                        <td>@i.value.AgrntMgrInstName</td>
+                                        <td>@i.value.AgrntMgrInstCode</td>
+                                        <td>@i.value.AgentCode</td>
+                                        <td>
+                                            @string.Format("{0:#,0.00}", i.value.Amount)
+                                        </td>
+                                        <td> @string.Format("{0:n0}", i.value.Count)</td>
+                                        <td>@i.value.AccountNumber</td>
+                                        <td>@i.value.AccountName</td>
+                                        <td>@i.value.BankCode</td>
+                                        <td>@i.value.Narration</td>
+                                        <td>
+                                            <a class="edit" href="@Url.Action("TditItem","Billing", new {Count= i.value.Count})">How?</a>
+                                        </td>
 
-                                   
 
 
 
-                                </tr>
+
+                                    </tr>
+                                  
                                 }
 
 

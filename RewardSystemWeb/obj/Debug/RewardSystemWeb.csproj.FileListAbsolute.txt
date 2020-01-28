@@ -1,4 +1,3 @@
-C:\NIBSS\NET\Nibss.Net.Utilities\RewardSystemWeb\obj\Debug\RewardSystemWeb.csproj.CoreCompileInputs.cache
 C:\NIBSS\NET\Nibss.Net.Utilities\RewardSystemWeb\bin\RewardSystemWeb.dll.config
 C:\NIBSS\NET\Nibss.Net.Utilities\RewardSystemWeb\bin\RewardSystemWeb.dll
 C:\NIBSS\NET\Nibss.Net.Utilities\RewardSystemWeb\bin\RewardSystemWeb.pdb
@@ -146,6 +145,7 @@ C:\NIBSS\NET\Nibss.Net.Utilities\RewardSystemWeb\bin\System.Xml.XPath.dll
 C:\NIBSS\NET\Nibss.Net.Utilities\RewardSystemWeb\bin\System.Xml.XPath.XDocument.dll
 C:\NIBSS\NET\Nibss.Net.Utilities\RewardSystemWeb\bin\Antlr3.Runtime.dll
 C:\NIBSS\NET\Nibss.Net.Utilities\RewardSystemWeb\bin\EntityFramework.dll
+C:\NIBSS\NET\Nibss.Net.Utilities\RewardSystemWeb\bin\EntityFramework.SqlServer.dll
 C:\NIBSS\NET\Nibss.Net.Utilities\RewardSystemWeb\bin\ICSharpCode.SharpZipLib.dll
 C:\NIBSS\NET\Nibss.Net.Utilities\RewardSystemWeb\bin\log4net.dll
 C:\NIBSS\NET\Nibss.Net.Utilities\RewardSystemWeb\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
@@ -175,6 +175,7 @@ C:\NIBSS\NET\Nibss.Net.Utilities\RewardSystemWeb\bin\Unity.Mvc.dll
 C:\NIBSS\NET\Nibss.Net.Utilities\RewardSystemWeb\bin\WebActivatorEx.dll
 C:\NIBSS\NET\Nibss.Net.Utilities\RewardSystemWeb\bin\WebGrease.dll
 C:\NIBSS\NET\Nibss.Net.Utilities\RewardSystemWeb\bin\EntityFramework.xml
+C:\NIBSS\NET\Nibss.Net.Utilities\RewardSystemWeb\bin\EntityFramework.SqlServer.xml
 C:\NIBSS\NET\Nibss.Net.Utilities\RewardSystemWeb\bin\ICSharpCode.SharpZipLib.xml
 C:\NIBSS\NET\Nibss.Net.Utilities\RewardSystemWeb\bin\log4net.xml
 C:\NIBSS\NET\Nibss.Net.Utilities\RewardSystemWeb\bin\RewardSystem.pdb
@@ -196,8 +197,8 @@ C:\NIBSS\NET\Nibss.Net.Utilities\RewardSystemWeb\bin\System.Net.Http.Formatting.
 C:\NIBSS\NET\Nibss.Net.Utilities\RewardSystemWeb\bin\System.Web.Http.xml
 C:\NIBSS\NET\Nibss.Net.Utilities\RewardSystemWeb\bin\System.Web.Http.WebHost.xml
 C:\NIBSS\NET\Nibss.Net.Utilities\RewardSystemWeb\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\NIBSS\NET\Nibss.Net.Utilities\RewardSystemWeb\obj\Debug\RewardSystemWeb.csproj.CoreCompileInputs.cache
 C:\NIBSS\NET\Nibss.Net.Utilities\RewardSystemWeb\obj\Debug\RewardSystemWeb.csproj.CopyComplete
 C:\NIBSS\NET\Nibss.Net.Utilities\RewardSystemWeb\obj\Debug\RewardSystemWeb.dll
 C:\NIBSS\NET\Nibss.Net.Utilities\RewardSystemWeb\obj\Debug\RewardSystemWeb.pdb
-C:\NIBSS\NET\Nibss.Net.Utilities\RewardSystemWeb\bin\EntityFramework.SqlServer.dll
-C:\NIBSS\NET\Nibss.Net.Utilities\RewardSystemWeb\bin\EntityFramework.SqlServer.xml
+C:\NIBSS\NET\Nibss.Net.Utilities\RewardSystemWeb\obj\Debug\RewardSystemWeb.csprojAssemblyReference.cache

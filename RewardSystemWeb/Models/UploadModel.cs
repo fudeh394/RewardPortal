@@ -93,29 +93,19 @@ namespace RewardSystemWeb.Models
         [Column("Date Range")]
         public string DateRange { get; set; }
 
-        [Column("Total Count")]
+        [Column("Total Enrolment")]
         public string TotalCount { get; set; }
         [Column("Band")]
         public string Band { get; set; }
 
         [Column("Price")]
+        public decimal Price { get; set; }
+
+        [Column("Amount")]
         public decimal Amount { get; set; }
 
-        [Column("COUNT")]
+        [Column("Count Within Band")]
         public int Count { get; set; }
-
-        [Column("ACCOUNT NUMBER")]
-        public string AccountNumber { get; set; }
-
-        [Column("ACCOUNT NAME")]
-        public string AccountName { get; set; }
-
-        [Column("BANK CODE")]
-        public string BankCode { get; set; }
-
-        [Column("NARRATION")]
-        public string Narration { get; set; }
-
 
     }
 
@@ -142,6 +132,9 @@ namespace RewardSystemWeb.Models
 
         [Column("ACCOUNT NAME")]
         public string AccountName { get; set; }
+
+        [Column("AGENT CODE")]
+        public string AgentCode { get; set; }
 
         [Column("BANK CODE")]
         public string BankCode { get; set; }
@@ -173,6 +166,9 @@ namespace RewardSystemWeb.Models
 
         [Column("BANK CODE")]
         public string BankCode { get; set; }
+
+        [Column("AGENT CODE")]
+        public string AgentCode { get; set; }
 
         [Column("NARRATION")]
         public string Narration { get; set; }

@@ -72,6 +72,29 @@ namespace RewardSystemWeb
         }
 
 
+
+        public static List<AgentResultDetail> CurrentAgentResultDetail
+        {
+            get
+            {
+                var session = HttpContext.Current.Session;
+                if (session["__CurrentAgentResultDetail__"] == null)
+                {
+                    var uc = new List<AgentResultDetail>();
+
+                    session["__CurrentAgentResultDetail__"] = uc;
+                }
+                return session["__CurrentAgentResultDetail__"] as List<AgentResultDetail>;
+
+            }
+            set
+            {
+                var session = HttpContext.Current.Session;
+                session["__CurrentAgentResultDetail__"] = value;
+            }
+        }
+
+
         public static string CurrentFileName
         {
             get
